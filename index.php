@@ -26,7 +26,7 @@ $quality = 60;
 /*This is just a coutner for the amount of files*/
 $counter = 0;
 /*until which size not to compress*/
-$sizeLimit = 10000;
+$sizeLimit = 1000;
 /*the location of the folder */
 $folder = __DIR__.'/';
 ?>
@@ -104,7 +104,7 @@ function compress_image($source_url, $quality, $sizeLimit) {
 			break;
 		case 'image/png':
 			$image = imagecreatefrompng($source_url);
-			imagepng($image, $source_url, $quality);
+			imagepng($image, $source_url, ceil($quality / 10));
 			break;
 		default:
 			return;
