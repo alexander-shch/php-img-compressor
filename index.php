@@ -106,7 +106,19 @@ function compress_image($source_url, $quality, $sizeLimit) {
 	}
 
 	// create image from bitmap with the quality decrease
-	imagejpeg($image, $source_url, $quality);
+	switch ( $info['mime'] ) {
+		case 'image/jpeg':
+			imagejpeg($image, $source_url, $quality);
+			break;
+		case 'image/gif':
+			imagegif($image, $source_url, $quality);
+			break;
+		case 'image/png':
+			imagepng($image, $source_url, $quality);
+			break;
+		default:
+			break;
+	}
 
 	// add to global counter
 	$counter++;
