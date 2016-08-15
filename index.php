@@ -19,15 +19,19 @@ ini_set('max_execution_time', 0);
 /*Set memory to max*/
 ini_set('memory_limit', '-1');
 
+echo date('h:m:s' , time());
+
 /*between 1 - 100*/
-$quality = 20;
+$quality = 60;
 /*This is just a coutner for the amount of files*/
 $counter = 0;
 /*until which size not to compress*/
-$sizeLimit = 1000000;
+$sizeLimit = 10000;
 /*the location of the folder */
-$folder = __DIR__;
-
+$folder = __DIR__.'/';
+?>
+<ol>
+<?php
 // Call the main function 
 compressImagesIn($folder, $quality, $sizeLimit);
 
@@ -52,7 +56,7 @@ function compressImagesIn($folder, $quality, $sizeLimit){
 	// run on folder content
 	foreach ($containing as $key => $value) {
 
-		// jump ever folder links
+		// jump over folder links
 		if($value === '.' || $value === '..'){
 			continue;
 		}
@@ -71,10 +75,7 @@ function compressImagesIn($folder, $quality, $sizeLimit){
 		compress_image($filePath, $quality, $sizeLimit);
 
 	}
-
-	// This will execute after all the proccess was completed
-	echo 'Successfully compressed '.$counter.' Files';
-
+	
 }
 
 // compression function compress_image
@@ -91,7 +92,7 @@ function compress_image($source_url, $quality, $sizeLimit) {
 	// get image data
 	$info = getimagesize($source_url);
 
-	// create image from bitmap with the quality decrease
+	// check if can compress
 	switch ( $info['mime'] ) {
 		case 'image/jpeg':
 			$image = imagecreatefromjpeg($source_url);
@@ -113,5 +114,14 @@ function compress_image($source_url, $quality, $sizeLimit) {
 	$counter++;
 
 	// print the generated file path
-	echo $counter.': '.$source_url.PHP_EOL;
+	echo '<li?'.$counter.': '.$source_url.'</li>';
 }
+
+
+echo '<li>Successfully compressed '.$counter. "Files</li>";
+?>
+
+</ol>
+
+
+<?php echo date('h:m:s' , time());?>
