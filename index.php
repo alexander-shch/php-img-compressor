@@ -91,33 +91,22 @@ function compress_image($source_url, $quality, $sizeLimit) {
 	// get image data
 	$info = getimagesize($source_url);
 
-	// check if can compress
-	if ($info['mime'] == 'image/jpeg') {
-		$image = imagecreatefromjpeg($source_url);
-	}
-	elseif ($info['mime'] == 'image/gif') {
-		$image = imagecreatefromgif($source_url);
-	}
-	elseif ($info['mime'] == 'image/png') {
-		$image = imagecreatefrompng($source_url);
-	}
-	} else {
-		return;
-	}
-
 	// create image from bitmap with the quality decrease
 	switch ( $info['mime'] ) {
 		case 'image/jpeg':
+			$image = imagecreatefromjpeg($source_url);
 			imagejpeg($image, $source_url, $quality);
 			break;
 		case 'image/gif':
+			$image = imagecreatefromgif($source_url);
 			imagegif($image, $source_url, $quality);
 			break;
 		case 'image/png':
+			$image = imagecreatefrompng($source_url);
 			imagepng($image, $source_url, $quality);
 			break;
 		default:
-			break;
+			return;
 	}
 
 	// add to global counter
